@@ -83,7 +83,7 @@ class LibraryAPIClient {
 // Example usage
 
 // Initialize the API client (replace with your deployed Google Apps Script web app URL)
-const apiClient = new LibraryAPIClient('https://script.google.com/macros/s/YOUR_SCRIPT_ID/exec');
+const apiClient = new LibraryAPIClient('https://script.google.com/macros/s/AKfycbwuwQRrU-hk5G_YEMFIdIDXet2URSt_IO090XEcwb3uVtGr3jzyVvGQaba1DG2WEJ7irg/exec');
 
 // Example: Load and display all books
 async function loadAllBooks() {

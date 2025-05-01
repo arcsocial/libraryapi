@@ -22,12 +22,13 @@ class LibraryAPIClient {
       Object.keys(params).forEach(key => {
         if (params[key]) url.searchParams.append(key, params[key]);
       });
-
+      
       // Make the request
       const response = await fetch(url, {
+        redirect: 'follow',
         method: 'GET',
         headers: {
-          'Content-Type': 'application/json'
+          'Content-Type': 'text/plain;charset=utf-8' // 'application/json'
         }
       });
 

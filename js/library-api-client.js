@@ -71,8 +71,8 @@ class LibraryAPIClient {
   }
 
   // Get new books
-  async getNewBooks(field) {
-    return this.makeRequest('getNewBooks', {field});
+  async getNewBooks(sheetname) {
+    return this.makeRequest('getNewBooks', {sheetname});
   }
 
   // Get translations
@@ -136,9 +136,9 @@ const apiClient = new LibraryAPIClient('https://script.google.com/macros/s/AKfyc
 async function getNewBooks() {
   try {
 
-    const sheet = 'NewBooks';
+    const sheetname = 'NewBooks';
     // Fetch books from API
-    const books = await apiClient.getNewBooks(sheet);
+    const books = await apiClient.getNewBooks(sheetname);
 
     console.error('Done getNewBooks');
     console.error('Error:', books.length);   

@@ -51,8 +51,8 @@ class LibraryAPIClient {
   // API endpoints
   
   // Get all books
-  async getAllBooks() {
-    return this.makeRequest('getAllBooks');
+  async getAllBooks(field) {
+    return this.makeRequest('getAllBooks', { field });
   }
 
   // Get filtered books
@@ -71,8 +71,8 @@ class LibraryAPIClient {
   }
 
   // Get new books
-  async getNewBooks() {
-    return this.makeRequest('getNewBooks');
+  async getNewBooks(field) {
+    return this.makeRequest('getNewBooks', {field});
   }
 
   // Get translations
@@ -138,7 +138,7 @@ async function getNewBooks() {
 
     const sheet = 'NewBooks';
     // Fetch books from API
-    const books = await apiClient.getNewBooks({sheet});
+    const books = await apiClient.getNewBooks(sheet);
     
   } catch (error) {
     console.error('Error:', error);

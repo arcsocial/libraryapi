@@ -517,10 +517,10 @@
       setLanguage(currentLanguage);
 
       console.error('getting new books ');
-      let books = getNewBooks('NewBooks');
+      let books = await getNewBooks('NewBooks');
       console.error('got new books ', books.length);
 
-      if (items.length > 0) {
+      if (books.length > 0) {
         displayNewBooks(books);
       } 
       

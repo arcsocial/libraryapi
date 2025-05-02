@@ -713,6 +713,8 @@
     }
 
     function getNewBooks() {
+
+        console.error('getting new books ');
         let books = getNewBooks('NewBooks');
         console.error('got new books ', books.length);
 
@@ -836,7 +838,9 @@
     document.getElementById('logoHome').onclick = homePage;    
     document.getElementById('title').onclick = homePage;
 
-    window.onload = initialize;
+    //window.onload = initialize;
+
+    initialize();
     
   </script>
 </body>

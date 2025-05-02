@@ -511,16 +511,10 @@
   <script>
     let currentLanguage = 'en';
     let currentPage = 'home';
-    let translations = {};
-
-
   
     function initialize() {
-      google.script.run
-        .withSuccessHandler(updateTranslations)
-        .getTranslations('en');
       
-      setLanguage('en');
+      setLanguage(currentLanguage);
 
       getNewBooks();
       getEvents();
@@ -534,13 +528,11 @@
         btn.classList.toggle('selected', btn.id === `lang${lang.toUpperCase()}`);
       });
 
-      google.script.run
-        .withSuccessHandler(updateTranslations)
-        .getTranslations(lang);
+      updateTranslations(getTranslations(lang));
 
       if ( currentPage != 'home' ) { 
-        updateFilters();
-        searchBooks();
+        updateFilters(); // filter contents change for language
+        searchBooks();   // get the book list for the language
       }
     }
 
@@ -721,10 +713,7 @@
     }
 
     function getNewBooks() {
-      google.script.run
-        .withSuccessHandler(displayNewBooks)
-        .withFailureHandler(handleError)
-        .getNewBooks('NewBooks');
+        displayNewBooks(getNewBooks('NewBooks'));
     }
 
     function displayNewBooks(items) {

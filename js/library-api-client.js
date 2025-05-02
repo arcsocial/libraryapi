@@ -141,10 +141,12 @@ async function getNewBooks() {
     const books = await apiClient.getNewBooks({sheet});
     
   } catch (error) {
-    document.getElementById('book-list').innerHTML = `<p>Error: ${error.message}</p>`;
+    console.error('Error:', error);
+    //document.getElementById('book-list').innerHTML = `<p>Error: ${error.message}</p>`;
   }
 }
-    
+
+/*
 // Example: Load and display all books
 async function loadAllBooks() {
   try {
@@ -293,3 +295,4 @@ document.addEventListener('DOMContentLoaded', function() {
   populateFilters();
   loadAllBooks();
 });
+*/

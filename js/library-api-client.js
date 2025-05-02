@@ -139,6 +139,11 @@ async function getNewBooks() {
     const sheet = 'NewBooks';
     // Fetch books from API
     const books = await apiClient.getNewBooks(sheet);
+
+    console.error('Done getNewBooks');
+    console.error('Error:', books.length);   
+
+    return books;
     
   } catch (error) {
     console.error('Error:', error);

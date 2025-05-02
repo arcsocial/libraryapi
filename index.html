@@ -517,7 +517,7 @@
       setLanguage(currentLanguage);
 
       console.error('getting new books ');
-      let books = await getNewBooks('NewBooks');
+      let books = getNewBooks('NewBooks');
       console.error('got new books ', books.length);
 
       if (books.length > 0) {

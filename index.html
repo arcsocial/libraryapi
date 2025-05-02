@@ -516,7 +516,14 @@
       
       setLanguage(currentLanguage);
 
-      getNewBooks();
+      console.error('getting new books ');
+      let books = getNewBooks('NewBooks');
+      console.error('got new books ', books.length);
+
+      if (items.length > 0) {
+        displayNewBooks(books);
+      } 
+      
       //getEvents();
 
       document.getElementById('searchContainer').style.display = 'none';
@@ -712,16 +719,6 @@
         location.reload(); // Reload to restore original main content
     }
 
-    function getNewBooks() {
-
-        console.error('getting new books ');
-        let books = getNewBooks('NewBooks');
-        console.error('got new books ', books.length);
-
-        if (items.length > 0) {
-          displayNewBooks(books);
-        } 
-    }
 
     function displayNewBooks(items) {
       const itemList = document.getElementById('newBooksList');

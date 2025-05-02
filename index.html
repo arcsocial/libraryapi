@@ -713,7 +713,12 @@
     }
 
     function getNewBooks() {
-        displayNewBooks(getNewBooks('NewBooks'));
+        let books = getNewBooks('NewBooks');
+        console.error('got new books ', books.length);
+
+        if (items.length > 0) {
+          displayNewBooks(books);
+        } 
     }
 
     function displayNewBooks(items) {

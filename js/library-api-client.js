@@ -267,6 +267,8 @@ async function updateFilters() {
   } catch (error) {
     console.error('Error populating filters:', error);
   }
+
+  hideProcessing();
 }
 
 async function searchBooksText() {
@@ -325,8 +327,7 @@ async function searchBooks() {
 function updateSelect(selectId, values) {
     const select = document.getElementById(selectId);
     select.innerHTML = '<option value="">All</option>' +
-      values.map(value => `<option value="${value}">${value}</option>`).join('');
-    hideProcessing();
+      values.map(value => `<option value="${value}">${value}</option>`).join('')
 }
 
 function displayBooks(books) {

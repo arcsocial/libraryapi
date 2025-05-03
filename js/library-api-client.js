@@ -269,13 +269,6 @@ async function updateFilters() {
   }
 }
 
-function updateSelect(selectId, values) {
-    const select = document.getElementById(selectId);
-    select.innerHTML = '<option value="">All</option>' +
-      values.map(value => `<option value="${value}">${value}</option>`).join('');
-    hideProcessing();
-}
-
 async function searchBooksText() {
   let searchText = '';
 
@@ -307,7 +300,7 @@ async function searchBooksText() {
   }
 }
 
-function searchBooks() {
+async function searchBooks() {
   try {
     clearResults();      
     showProcessing();
@@ -327,6 +320,13 @@ function searchBooks() {
   } catch (error) {
     handleError(error);
   }
+}
+
+function updateSelect(selectId, values) {
+    const select = document.getElementById(selectId);
+    select.innerHTML = '<option value="">All</option>' +
+      values.map(value => `<option value="${value}">${value}</option>`).join('');
+    hideProcessing();
 }
 
 function displayBooks(books) {

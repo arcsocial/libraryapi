@@ -279,27 +279,32 @@ function updateSelect(selectId, values) {
 async function searchBooksText() {
   let searchText = '';
 
-  if ( currentPage != 'search') {
-    showSearch();
-    searchText = document.getElementById('searchBox').value;
-    document.getElementById('authorSearch').value = searchText;
-    updateFilters();        
-  }
-  else {
-    searchText = document.getElementById('authorSearch').value;
-  }
-
-  showProcessing();
+  try {
+    if ( currentPage != 'search') {
+      showSearch();
+      searchText = document.getElementById('searchBox').value;
+      document.getElementById('authorSearch').value = searchText;
+      updateFilters();        
+    }
+    else {
+      searchText = document.getElementById('authorSearch').value;
+    }
   
-  const filters = {
-    language: currentLanguage,
-    query: searchText
-  };
+    showProcessing();
+    
+    const filters = {
+      language: currentLanguage,
+      query: searchText
+    };
+    
+    // Fetch filtered books from API
+    const books = await apiClient.getFilteredBooks(filters);
 
-  google.script.run
-    .withSuccessHandler(displayBooks)
-    .withFailureHandler(handleError)
-    .getFilteredBooks(filters);
+    displayBooks(books);  
+
+  } catch (error) {
+    handleError(error);
+  }
 }
 
 function searchBooks() {

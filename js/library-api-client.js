@@ -276,7 +276,7 @@ function updateSelect(selectId, values) {
     hideProcessing();
 }
 
-aync function searchBooksText() {
+async function searchBooksText() {
   let searchText = '';
 
   if ( currentPage != 'search') {

@@ -1,8 +1,12 @@
+// start main JS handling
+let currentLanguage = 'en'; // Default language
+let currentPage = 'home';
+
 // Library API Client
 class LibraryAPIClient {
   constructor(apiUrl) {
     this.apiUrl = apiUrl; // URL to your deployed Google Apps Script web app
-    this.language = 'en'; // Default language
+    this.language = currentLanguage; // Default language
   }
 
   // Set the current language
@@ -133,7 +137,7 @@ function getTranslations(language) {
 // Initialize the API client (replace with your deployed Google Apps Script web app URL)
 const apiClient = new LibraryAPIClient('https://script.google.com/macros/s/AKfycbx612c2iZzAf5ZKgAII3PG9MZfvWRDPBE2XFtVic5JwvSvew6H9KrLOstivZcj83lQ3mQ/exec');
 
-async function getNewBooks() {
+async function showNewBooks() {
   try {
 
     const sheetname = 'NewBooks';
@@ -152,26 +156,57 @@ async function getNewBooks() {
   }
 }
 
-let currentLanguage = 'en';
-let currentPage = 'home';
+async function showEvents() {
+  try {
 
+    const sheetname = 'Events';
+    // Fetch events from API
+    const items = await apiClient.getNewBooks(sheetname);
+
+    console.error('Done get events');
+    console.error('Error:', items.length);   
+
+    // display the data here
+    displayEvents(items);
+    
+  } catch (error) {
+    console.error('Error:', error);
+    //document.getElementById('book-list').innerHTML = `<p>Error: ${error.message}</p>`;
+  }
+}
+
+function displayEvents(items) {
+  const itemList = document.getElementById('activitiesList');
+
+  if (!items.length) {
+    return;
+  }
+
+  // Generate book list HTML
+  let html = '';
+  itemList.innerHTML = '';
+
+  items.forEach(item => {
+    html += `<li>
+              <strong>${item.Date}</strong> - ${item.Event}
+            </li>`;
+  });
+
+  itemList.innerHTML += html;
+}
+
+// initialize - call at start and populate home page data
 function initialize() {
   
   setLanguage(currentLanguage);
 
-  console.error('getting new books ');
-  let books = getNewBooks('NewBooks');
-  console.error('got new books ', books.length);
-
-  if (books.length > 0) {
-    displayNewBooks(books);
-  } 
-  
-  //getEvents();
+  showNewBooks('NewBooks');
+  showEvents();
 
   document.getElementById('searchContainer').style.display = 'none';
 }
 
+// set language for all UI elements
 function setLanguage(lang) {
   currentLanguage = lang;
   document.querySelectorAll('.lang-btn').forEach(btn => {
@@ -213,29 +248,29 @@ function updateTranslations(trans) {
   document.getElementById("contact").innerHTML = translations.contact;      
 }
 
-function updateFilters() {
+async function updateFilters() {
   showProcessing();
-  
-  google.script.run
-    .withSuccessHandler(updateSelect('genreSelect'))
-    .getDistinctValues('Genre', currentLanguage);
+
+  try {
     
-  google.script.run
-    .withSuccessHandler(updateSelect('ageGroupSelect'))
-    .getDistinctValues('AgeGroup', currentLanguage);
-    
-  google.script.run
-    .withSuccessHandler(updateSelect('authorSelect'))
-    .getAuthors(currentLanguage);
+    const genres = await apiClient.getDistinctValues('Genre');
+    updateSelect('genreSelect', genres);
+
+    const ageGroups = await apiClient.getDistinctValues('AgeGroup');
+    updateSelect('ageGroupSelect', agreGroups);
+      
+    const authors = await apiClient.getAuthors();
+    updateSelect('authorSelect', authors);    
+  } catch (error) {
+    console.error('Error populating filters:', error);
+  }
 }
 
-function updateSelect(selectId) {
-  return function(values) {
+function updateSelect(selectId, values) {
     const select = document.getElementById(selectId);
     select.innerHTML = '<option value="">All</option>' +
       values.map(value => `<option value="${value}">${value}</option>`).join('');
     hideProcessing();
-  }
 }
 
 function searchBooksText() {
@@ -377,33 +412,6 @@ function displayNewBooks(items) {
   items.forEach(book => {
     html += `<li>
               <strong>${book.Title}</strong> - ${book.Author}
-            </li>`;
-  });
-
-  itemList.innerHTML += html;
-}
-
-function getEvents() {
-  google.script.run
-    .withSuccessHandler(displayEvents)
-    .withFailureHandler(handleError)
-    .getNewBooks('Events');
-}
-
-function displayEvents(items) {
-  const itemList = document.getElementById('activitiesList');
-
-  if (!items.length) {
-    return;
-  }
-
-  // Generate book list HTML
-  let html = '';
-  itemList.innerHTML = '';
-
-  items.forEach(item => {
-    html += `<li>
-              <strong>${item.Date}</strong> - ${item.Event}
             </li>`;
   });
 

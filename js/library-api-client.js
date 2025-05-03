@@ -260,7 +260,7 @@ async function updateFilters() {
     updateSelect('genreSelect', genres);
 
     const ageGroups = await apiClient.getDistinctValues('AgeGroup');
-    updateSelect('ageGroupSelect', agreGroups);
+    updateSelect('ageGroupSelect', ageGroups);
       
     const authors = await apiClient.getAuthors();
     updateSelect('authorSelect', authors);    

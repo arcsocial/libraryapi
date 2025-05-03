@@ -209,6 +209,9 @@ function initialize() {
 // set language for all UI elements
 function setLanguage(lang) {
   currentLanguage = lang;
+  
+  apiClient.setLanguage(currentLanguage); // update language used by API client
+  
   document.querySelectorAll('.lang-btn').forEach(btn => {
     btn.classList.toggle('selected', btn.id === `lang${lang.toUpperCase()}`);
   });
@@ -273,7 +276,7 @@ function updateSelect(selectId, values) {
     hideProcessing();
 }
 
-function searchBooksText() {
+aync function searchBooksText() {
   let searchText = '';
 
   if ( currentPage != 'search') {
@@ -300,20 +303,25 @@ function searchBooksText() {
 }
 
 function searchBooks() {
-  clearResults();      
-  showProcessing();
-  const filters = {
-    language: currentLanguage,
-    genre: document.getElementById('genreSelect').value,
-    ageGroup: document.getElementById('ageGroupSelect').value,
-    author: document.getElementById('authorSelect').value,
-    query: document.getElementById('authorSearch').value
-  };
+  try {
+    clearResults();      
+    showProcessing();
+    const filters = {
+      language: currentLanguage,
+      genre: document.getElementById('genreSelect').value,
+      ageGroup: document.getElementById('ageGroupSelect').value,
+      author: document.getElementById('authorSelect').value,
+      query: document.getElementById('authorSearch').value
+    };
+  
+    // Fetch filtered books from API
+    const books = await apiClient.getFilteredBooks(filters);
 
-  google.script.run
-    .withSuccessHandler(displayBooks)
-    .withFailureHandler(handleError)
-    .getFilteredBooks(filters);
+    displayBooks(books);
+    
+  } catch (error) {
+    handleError(error);
+  }
 }
 
 function displayBooks(books) {

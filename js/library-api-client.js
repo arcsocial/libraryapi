@@ -401,19 +401,23 @@ function displayBooks(books) {
 
 async function showBookDetails(bookString) {
 
-  console.error('ShowBookDetails:', bookString);      
+  console.log('ShowBookDetails:', bookString);      
 
+  let title = '';
+  let author = '';
+  
   const parts = bookString.split("-");
   
-  if (parts.length > 2 ) {
-    const title = parts[1];
-    const author = parts[2];
+  if (parts.length > 3 ) {
+    title = parts[1] + ' ' + parts[2];
+    author = parts[parts.length - 1];
   } 
-  if (parts.length > 1) {
-    const title = parts[1];
-    const author = " ";
+  if (parts.length == 3) {
+    title = parts[1];
+    author = parts[2];
   } 
-  
+
+  console.log('Title ', title, ' Author :', author );    
   const bookInfo = await getBookInfo(title, author);
 
   document.getElementById('bookdetails').style.display = 'block';

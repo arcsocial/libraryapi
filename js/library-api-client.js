@@ -386,25 +386,87 @@ function displayBooks(books) {
     alphabetNav.style.display = 'none';
   }
 
-document.getElementById("bookList").addEventListener("click", function(event) {      
-    if (event.target && (event.target.nodeName === "STRONG" || event.target.nodeName === "DIV") ) {
-        showBookDetails(event.target.textContent);
-    }
-});
+  document.getElementById("bookList").addEventListener("click", function(event) {      
+      if (event.target) {
+        if (event.target.nodeName === "STRONG" ) {        
+          showBookDetails(event.target.parentNode.textContent);
+        } else {
+          showBookDetails(event.target.textContent);
+        }
+      }
+  });
 
   hideProcessing();
 }
 
-function showBookDetails(bookTitle) {
-    console.error('Error:', bookTitle);      
-    alert("Showing book details: ", bookTitle);
-    const detailsSection = document.createElement("div");
-    detailsSection.style.padding = "20px";
-    detailsSection.innerHTML = `<h2>${bookTitle}</h2><p>Details for <strong>${bookTitle}</strong> will be displayed here.</p><button onclick="goBack()">⬅️ Back</button>`;
+function showBookDetails(bookString) {
 
-    const contentArea = document.getElementById("searchContainer");
-    contentArea.innerHTML = "";
-    contentArea.appendChild(detailsSection);
+  console.error('ShowBookDetails:', bookString);      
+
+  const parts = bookString.split("-");
+  
+  if (parts.length > 2 ) {
+    const title = parts[1];
+    const author = parts[2];
+  }
+  
+  const bookInfo = await getBookInfo(title, author);
+
+  document.getElementById('bookdetails').style.display = 'block';
+  
+  if (bookInfo.success) {
+    document.getElementById('bookTitle').textContent = bookInfo.title;
+    document.getElementById('bookSynopsis').textContent = bookInfo.synopsis;
+    
+    if (bookInfo.coverImage) {
+      document.getElementById('bookCover').src = bookInfo.coverImage;
+      document.getElementById('bookCover').style.display = 'block';
+    } else {
+      document.getElementById('bookCover').style.display = 'none';
+    }
+  } else {
+    alert(bookInfo.message);
+  }  
+}
+
+// function to get book details
+async function getBookInfo(title, author) {
+  // Format the search query
+  const query = encodeURIComponent(`intitle:${title} inauthor:${author}`);
+  const url = `https://www.googleapis.com/books/v1/volumes?q=${query}&maxResults=1`;
+  
+  try {
+    // Make the API request
+    const response = await fetch(url);
+    const data = await response.json();
+    
+    // Check if we got results
+    if (data.totalItems > 0) {
+      const book = data.items[0].volumeInfo;
+      const title = book.title;
+      const description = book.description ? 
+        book.description.substring(0, 150) + "..." : 
+        "No description available.";
+      const imageUrl = book.imageLinks ? book.imageLinks.thumbnail : null;
+      
+      return {
+        success: true,
+        title: title,
+        synopsis: description,
+        coverImage: imageUrl
+      };
+    } else {
+      return {
+        success: false,
+        message: "No books found matching that title and author."
+      };
+    }
+  } catch (error) {
+    return {
+      success: false,
+      message: "Error fetching book information: " + error.toString()
+    };
+  }
 }
 
 function goBack() {

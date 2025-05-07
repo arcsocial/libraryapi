@@ -399,7 +399,7 @@ function displayBooks(books) {
   hideProcessing();
 }
 
-function showBookDetails(bookString) {
+async function showBookDetails(bookString) {
 
   console.error('ShowBookDetails:', bookString);      
 

@@ -408,7 +408,11 @@ async function showBookDetails(bookString) {
   if (parts.length > 2 ) {
     const title = parts[1];
     const author = parts[2];
-  }
+  } 
+  if (parts.length > 1) {
+    const title = parts[1];
+    const author = " ";
+  } 
   
   const bookInfo = await getBookInfo(title, author);
 

@@ -419,11 +419,12 @@ async function showBookDetails(bookString) {
 
   console.log('Title ', title, ' Author :', author );    
   const bookInfo = await getBookInfo(title, author);
-
-  document.getElementById('searchContainer').style.display = 'none';
-  document.getElementById('bookdetails').style.display = 'block';
   
   if (bookInfo.success) {
+
+    document.getElementById('searchContainer').style.display = 'none';
+    document.getElementById('bookdetails').style.display = 'block';
+    
     document.getElementById('bookTitle').textContent = bookInfo.title;
     document.getElementById('bookSynopsis').textContent = bookInfo.synopsis;
     
@@ -454,7 +455,7 @@ async function getBookInfo(title, author) {
       const book = data.items[0].volumeInfo;
       const title = book.title;
       const description = book.description ? 
-        book.description.substring(0, 150) + "..." : 
+        book.description.substring(0, 450) + "..." : 
         "No description available.";
       const imageUrl = book.imageLinks ? book.imageLinks.thumbnail : null;
       

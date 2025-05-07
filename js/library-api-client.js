@@ -365,7 +365,7 @@ function displayBooks(books) {
                 <div class="letter-header">${currentLetter}</div>`;
     }
     html += `<div class="book-item">
-              <strong>${book.Title}</strong> - ${book.Author}
+              <strong>${book.Title}</strong> - ${book.Author} -${book.Genre}
             </div>`;
     count++;      
   });
@@ -425,7 +425,7 @@ function displayNewBooks(items) {
 
   items.forEach(book => {
     html += `<li>
-              <strong>${book.Title}</strong> - ${book.Author}
+              <strong>${book.Title}</strong> - ${book.Author} - ${book.Genre}
             </li>`;
   });
 

@@ -408,18 +408,19 @@ async function showBookDetails(bookString) {
   
   const parts = bookString.split("-");
   
-  if (parts.length > 3 ) {
-    title = parts[1] + ' ' + parts[2];
+  if (parts.length > 2 ) {
+    title = parts[0] + ' ' + parts[1];
     author = parts[parts.length - 1];
   } 
-  if (parts.length == 3) {
-    title = parts[1];
-    author = parts[2];
+  if (parts.length === 2) {
+    title = parts[0];
+    author = parts[1];
   } 
 
   console.log('Title ', title, ' Author :', author );    
   const bookInfo = await getBookInfo(title, author);
 
+  document.getElementById('searchContainer').style.display = 'none';
   document.getElementById('bookdetails').style.display = 'block';
   
   if (bookInfo.success) {
@@ -477,8 +478,9 @@ async function getBookInfo(title, author) {
   }
 }
 
-function goBack() {
-    location.reload(); // Reload to restore original main content
+function backfromdetails() {
+  document.getElementById('searchContainer').style.display = 'block';
+  document.getElementById('bookdetails').style.display = 'none';
 }
 
 
@@ -569,6 +571,7 @@ document.getElementById('searchButton').onclick = searchBooksText;
 document.getElementById('browseButton').onclick = browseBooks;
 document.getElementById('logoHome').onclick = homePage;    
 document.getElementById('title').onclick = homePage;
+document.getElementById('bookdetail-back').onclick = backfromdetails;
 
 //window.onload = initialize;
 

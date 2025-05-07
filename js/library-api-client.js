@@ -408,11 +408,11 @@ async function showBookDetails(bookString) {
   
   const parts = bookString.split("-");
   
-  if (parts.length > 2 ) {
+  if (parts.length > 3 ) {
     title = parts[0] + ' ' + parts[1];
-    author = parts[parts.length - 1];
+    author = parts[parts.length - 2];
   } 
-  if (parts.length === 2) {
+  if (parts.length === 3) {
     title = parts[0];
     author = parts[1];
   } 

@@ -421,7 +421,7 @@ async function showBookDetails(event) {
   // getBookDetails from our spreadsheet
   const books = await apiClient.getBookDetails(title, author);
   if (!books.length) {
-    console.error("No book info for:', title, author);
+    console.error('No book info for:', title, author);
   } else {
     document.getElementById('searchContainer').style.display = 'none';
     document.getElementById('bookdetails').style.display = 'block';

@@ -421,7 +421,7 @@ async function showBookDetails(event) {
   // getBookDetails from our spreadsheet
   const books = await apiClient.getBookDetails(title, author);
   if (!books.length) {
-    console.error('No book info for:', title, author);
+    console.log('No book info for:', title, author);
   } else {
     document.getElementById('searchContainer').style.display = 'none';
     document.getElementById('bookdetails').style.display = 'block';
@@ -434,7 +434,7 @@ async function showBookDetails(event) {
   }
 
   // Get additional book info from Google Book APIs
-  console.error("Get additional infor for:', title, author);
+  console.log('Get additional infor for:', title, author);
   const bookInfo = await getBookInfo(title, author);
   
   if (bookInfo.success) {
@@ -450,11 +450,9 @@ async function showBookDetails(event) {
       document.getElementById('bookCover').style.display = 'none';
     }
   } 
-
-
 }
 
-// function to get book details
+// function to get book details from Google Book API
 async function getBookInfo(title, author) {
   // Format the search query
   const query = encodeURIComponent(`intitle:${title} inauthor:${author}`);

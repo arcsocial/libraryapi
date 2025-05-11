@@ -387,20 +387,20 @@ function displayBooks(books) {
     alphabetNav.style.display = 'none';
   }
 
-  document.getElementById("bookList").addEventListener("click", function(event) {      
-      if (event.target) {
-        if (event.target.nodeName === "STRONG" ) {        
-          showBookDetails(event.target.parentNode.textContent);
-        } else {
-          showBookDetails(event.target.textContent);
-        }
-      }
-  });
-
   hideProcessing();
 }
 
-async function showBookDetails(bookString) {
+async function showBookDetails(event) {
+
+  let bookString = '';
+  
+  if (event.target) {
+    if (event.target.nodeName === "STRONG" ) {        
+      bookString = event.target.parentNode.textContent;
+    } else {
+      bookString = event.target.textContent;
+    }
+  }
 
   console.log('ShowBookDetails:', bookString);      
 
@@ -587,6 +587,7 @@ document.getElementById('browseButton').onclick = browseBooks;
 document.getElementById('logoHome').onclick = homePage;    
 document.getElementById('title').onclick = homePage;
 document.getElementById('bookdetail-back').onclick = backfromdetails;
+document.getElementById("bookList").onclick, showBookDetails;  
 
 //window.onload = initialize;
 

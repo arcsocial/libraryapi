@@ -1,3 +1,4 @@
+
 // start main JS handling
 let currentLanguage = 'en'; // Default language
 let currentPage = 'home';
@@ -135,7 +136,7 @@ function getTranslations(language) {
 // Example usage
 
 // Initialize the API client (replace with your deployed Google Apps Script web app URL)
-const apiClient = new LibraryAPIClient('https://script.google.com/macros/s/AKfycbx612c2iZzAf5ZKgAII3PG9MZfvWRDPBE2XFtVic5JwvSvew6H9KrLOstivZcj83lQ3mQ/exec');
+const apiClient = new LibraryAPIClient('https://script.google.com/macros/s/AKfycbwzbqTijTdpMjc-9ZRcOf_twDJ3xxxVu_-VCd9CEZArRaymCpefupk9OXHPw-IB4m71/exec');
 
 async function showNewBooks() {
   try {
@@ -453,18 +454,24 @@ async function getBookInfo(title, author) {
     // Check if we got results
     if (data.totalItems > 0) {
       const book = data.items[0].volumeInfo;
-      const title = book.title;
-      const description = book.description ? 
-        book.description.substring(0, 450) + "..." : 
-        "No description available.";
-      const imageUrl = book.imageLinks ? book.imageLinks.thumbnail : null;
+      const gtitle = book.title;
+
+      // Google API - did it return the right book?
+      const comStr = (s1, s2) => s1.toLowerCase() === s2.toLowerCase();
       
-      return {
-        success: true,
-        title: title,
-        synopsis: description,
-        coverImage: imageUrl
-      };
+      if ( comStr(gtitle, title )) {          
+        const description = book.description ? 
+          book.description.substring(0, 450) + "..." : 
+          "No description available.";
+        const imageUrl = book.imageLinks ? book.imageLinks.thumbnail : null;
+        
+        return {
+          success: true,
+          title: title,
+          synopsis: description,
+          coverImage: imageUrl
+        };
+      }
     } else {
       return {
         success: false,

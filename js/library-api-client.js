@@ -458,9 +458,8 @@ async function getBookInfo(title, author) {
       const gtitle = book.title;
 
       console.log('Book retrieved from google:', gtitle);
-      // Google API - did it return the right book?
-      const comStr = (s1, s2) => s1.toLowerCase() === s2.toLowerCase();
       
+      // Google API - did it return the right book?
       if ( gtitle.trim().toLowerCase() === title.trim().toLowerCase() ) {          
         const description = book.description ? 
           book.description.substring(0, 450) + "..." : 

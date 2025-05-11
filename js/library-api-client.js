@@ -428,9 +428,9 @@ async function showBookDetails(event) {
     
     document.getElementById('bookTitle').textContent = title;
     document.getElementById('bookAuthor').textContent = author;
-    document.getElementById('bookAge').textContent = books[1].AgeGroup;
-    document.getElementById('bookGenre').textContent = books[1].Genre;
-    document.getElementById('bookNumber').textContent = books[1].Number;
+    document.getElementById('bookAge').textContent = books[0].AgeGroup;
+    document.getElementById('bookGenre').textContent = books[0].Genre;
+    document.getElementById('bookNumber').textContent = books[0].Number;
   }
 
   // Get additional book info from Google Book APIs
@@ -438,14 +438,11 @@ async function showBookDetails(event) {
   const bookInfo = await getBookInfo(title, author);
   
   if (bookInfo.success) {
-
-
     document.getElementById('bookSynopsis').textContent = bookInfo.synopsis;
     
     if (bookInfo.coverImage) {
       document.getElementById('bookCover').src = bookInfo.coverImage;
       document.getElementById('bookCover').style.display = 'block';
-      //document.getElementById('bookCover').style.justifyContent = 'center';
     } else {
       document.getElementById('bookCover').style.display = 'none';
     }

@@ -461,12 +461,12 @@ async function getBookInfo(title, author) {
       // Google API - did it return the right book?
       const comStr = (s1, s2) => s1.toLowerCase() === s2.toLowerCase();
       
-      if ( comStr(gtitle, title )) {          
+      if ( gtitle.trim().toLowerCase() === title.trim().toLowerCase() )) {          
         const description = book.description ? 
           book.description.substring(0, 450) + "..." : 
           "No description available.";
         const imageUrl = book.imageLinks ? book.imageLinks.thumbnail : null;
-        
+        console.log('GetBookDetails Matched', gtitle, title);
         return {
           success: true,
           title: title,
@@ -474,7 +474,7 @@ async function getBookInfo(title, author) {
           coverImage: imageUrl
         };
       } else {
-        console.log('GetBook details titles did not match', gtitle, title);
+        console.log('GetBookDetails titles did not match', gtitle, title);
         return {
           success: false,
           message: "No books found matching that title and author."

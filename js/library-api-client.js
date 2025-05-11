@@ -473,12 +473,13 @@ async function getBookInfo(title, author) {
           synopsis: description,
           coverImage: imageUrl
         };
-      }
-      console.log('GetBook details titles did not match', gtitle, title);
-      return {
-        success: false,
-        message: "No books found matching that title and author."
-      };            
+      } else {
+        console.log('GetBook details titles did not match', gtitle, title);
+        return {
+          success: false,
+          message: "No books found matching that title and author."
+        };            
+      } 
     } else {
       return {
         success: false,

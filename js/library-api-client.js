@@ -432,6 +432,7 @@ async function showBookDetails(bookString) {
     if (bookInfo.coverImage) {
       document.getElementById('bookCover').src = bookInfo.coverImage;
       document.getElementById('bookCover').style.display = 'block';
+      document.getElementById('bookCover').style.justify-content = 'center';
     } else {
       document.getElementById('bookCover').style.display = 'none';
     }

@@ -457,6 +457,7 @@ async function getBookInfo(title, author) {
       const book = data.items[0].volumeInfo;
       const gtitle = book.title;
 
+      console.log('Book retrieved from google:', gtitle);
       // Google API - did it return the right book?
       const comStr = (s1, s2) => s1.toLowerCase() === s2.toLowerCase();
       

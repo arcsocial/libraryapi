@@ -587,7 +587,7 @@ document.getElementById('browseButton').onclick = browseBooks;
 document.getElementById('logoHome').onclick = homePage;    
 document.getElementById('title').onclick = homePage;
 document.getElementById('bookdetail-back').onclick = backfromdetails;
-document.getElementById("bookList").onclick, showBookDetails;  
+document.getElementById("bookList").onclick = showBookDetails;  
 
 //window.onload = initialize;
 

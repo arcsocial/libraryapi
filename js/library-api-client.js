@@ -428,9 +428,9 @@ async function showBookDetails(event) {
     
     document.getElementById('bookTitle').textContent = title;
     document.getElementById('bookAuthor').textContent = author;
-    document.getElementById('bookAge').textContent = books[0].AgeGroup;
-    document.getElementById('bookGenre').textContent = books[0].Genre;
-    document.getElementById('bookNumber').textContent = books[0].Number;
+    document.getElementById('bookAge').textContent = books[1].AgeGroup;
+    document.getElementById('bookGenre').textContent = books[1].Genre;
+    document.getElementById('bookNumber').textContent = books[1].Number;
   }
 
   // Get additional book info from Google Book APIs

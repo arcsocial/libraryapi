@@ -27,6 +27,8 @@ class LibraryAPIClient {
       Object.keys(params).forEach(key => {
         if (params[key]) url.searchParams.append(key, params[key]);
       });
+
+      console.log('Making URL request:', url);
       
       // Make the request
       const response = await fetch(url, {
@@ -54,17 +56,16 @@ class LibraryAPIClient {
   }
 
   // API endpoints
-  
-  // Get all books
-  async getAllBooks(field) {
-    return this.makeRequest('getAllBooks', { field });
-  }
 
   // Get filtered books
   async getFilteredBooks(filters = {}) {
     return this.makeRequest('getFilteredBooks', filters);
   }
 
+  // Get book details for title and author
+  async getBookDetails(author, title) {
+    return this.makeRequest('getDistinctValues', { author, title });
+  }
   // Get distinct values for a field
   async getDistinctValues(field) {
     return this.makeRequest('getDistinctValues', { field });
@@ -75,15 +76,11 @@ class LibraryAPIClient {
     return this.makeRequest('getAuthors');
   }
 
-  // Get new books
-  async getNewBooks(sheetname) {
-    return this.makeRequest('getNewBooks', {sheetname});
+  // Get all data from the sheetname
+  async getSheetData(sheetname) {
+    return this.makeRequest('getSheetData', {sheetname});
   }
 
-  // Get translations
-  async getTranslations() {
-    return this.makeRequest('getTranslations');
-  }
 }
 
 // language constants
@@ -136,16 +133,17 @@ function getTranslations(language) {
 // Example usage
 
 // Initialize the API client (replace with your deployed Google Apps Script web app URL)
-const apiClient = new LibraryAPIClient('https://script.google.com/macros/s/AKfycbwzbqTijTdpMjc-9ZRcOf_twDJ3xxxVu_-VCd9CEZArRaymCpefupk9OXHPw-IB4m71/exec');
+// ARC Social const apiClient = new LibraryAPIClient('https://script.google.com/macros/s/AKfycbwzbqTijTdpMjc-9ZRcOf_twDJ3xxxVu_-VCd9CEZArRaymCpefupk9OXHPw-IB4m71/exec');
+const apiClient = new LibraryAPIClient('https://script.google.com/macros/s/AKfycbw8BN345bMva0a3LbWvoYkGWR6MR5GzFAwXWxo1dGeQVSuzfw2xwGTkGW39C-hMsxKGaA/exec');
 
 async function showNewBooks() {
   try {
 
     const sheetname = 'NewBooks';
     // Fetch books from API
-    const books = await apiClient.getNewBooks(sheetname);
+    const books = await apiClient.getSheetData(sheetname);
 
-    console.error('Done getNewBooks');
+    console.error('Done getSheetData');
     console.error('Error:', books.length);   
 
     // display the data here
@@ -162,7 +160,7 @@ async function showEvents() {
 
     const sheetname = 'Events';
     // Fetch events from API
-    const items = await apiClient.getNewBooks(sheetname);
+    const items = await apiClient.getSheetData(sheetname);
 
     console.error('Done get events');
     console.error('Error:', items.length);   
@@ -418,15 +416,30 @@ async function showBookDetails(event) {
     author = parts[1];
   } 
 
-  console.log('Title ', title, ' Author :', author );    
+  console.log('Show book details Title ', title, ' Author :', author );    
+
+  // getBookDetails from our spreadsheet
+  const books = await apiClient.getBookDetails(title, author);
+  if (!books.length) {
+    console.error("No book info for:', title, author);
+  } else {
+    document.getElementById('searchContainer').style.display = 'none';
+    document.getElementById('bookdetails').style.display = 'block';
+    
+    document.getElementById('bookTitle').textContent = title;
+    document.getElementById('bookAuthor').textContent = author;
+    document.getElementById('bookAge').textContent = books[0].AgeGroup;
+    document.getElementById('bookGenre').textContent = books[0].Genre;
+    document.getElementById('bookNumber').textContent = books[0].Number;
+  }
+
+  // Get additional book info from Google Book APIs
+  console.error("Get additional infor for:', title, author);
   const bookInfo = await getBookInfo(title, author);
   
   if (bookInfo.success) {
 
-    document.getElementById('searchContainer').style.display = 'none';
-    document.getElementById('bookdetails').style.display = 'block';
-    
-    document.getElementById('bookTitle').textContent = bookInfo.title;
+
     document.getElementById('bookSynopsis').textContent = bookInfo.synopsis;
     
     if (bookInfo.coverImage) {
@@ -436,9 +449,9 @@ async function showBookDetails(event) {
     } else {
       document.getElementById('bookCover').style.display = 'none';
     }
-  } else {
-    alert(bookInfo.message);
-  }  
+  } 
+
+
 }
 
 // function to get book details
@@ -465,7 +478,7 @@ async function getBookInfo(title, author) {
           book.description.substring(0, 450) + "..." : 
           "No description available.";
         const imageUrl = book.imageLinks ? book.imageLinks.thumbnail : null;
-        console.log('GetBookDetails Matched', gtitle, title);
+        console.log('GetBookInfo Matched', gtitle, title);
         return {
           success: true,
           title: title,
@@ -473,7 +486,7 @@ async function getBookInfo(title, author) {
           coverImage: imageUrl
         };
       } else {
-        console.log('GetBookDetails titles did not match', gtitle, title);
+        console.log('GetBookInfo titles did not match', gtitle, title);
         return {
           success: false,
           message: "No books found matching that title and author."

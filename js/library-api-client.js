@@ -417,17 +417,23 @@ async function showBookDetails(event) {
   } 
 
   console.log('Show book details Title ', title, ' Author :', author );    
-
+  document.getElementById('searchContainer').style.display = 'none';
+  document.getElementById('bookdetails').style.display = 'block';
+  
+  document.getElementById('bookTitle').textContent = title;
+  document.getElementById('bookAuthor').textContent = author;
+  
   // getBookDetails from our spreadsheet
   const books = await apiClient.getBookDetails(title, author);
+
+  console.log('getBookDetails returned ', books.length, ' books ', books[0].AgeGroup, books[0].Genre, books[0].Number);
+  
   if (!books.length) {
     console.log('No book info for:', title, author);
+    document.getElementById('bookAge').textContent = '';
+    document.getElementById('bookGenre').textContent = '';
+    document.getElementById('bookNumber').textContent = '';
   } else {
-    document.getElementById('searchContainer').style.display = 'none';
-    document.getElementById('bookdetails').style.display = 'block';
-    
-    document.getElementById('bookTitle').textContent = title;
-    document.getElementById('bookAuthor').textContent = author;
     document.getElementById('bookAge').textContent = books[0].AgeGroup;
     document.getElementById('bookGenre').textContent = books[0].Genre;
     document.getElementById('bookNumber').textContent = books[0].Number;
@@ -446,7 +452,10 @@ async function showBookDetails(event) {
     } else {
       document.getElementById('bookCover').style.display = 'none';
     }
-  } 
+  } else {
+    document.getElementById('bookSynopsis').textContent = '';
+    document.getElementById('bookCover').style.display = 'none';
+  }
 }
 
 // function to get book details from Google Book API

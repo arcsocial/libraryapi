@@ -424,8 +424,17 @@ async function showBookDetails(event) {
   document.getElementById('bookAuthor').textContent = author;
   
   // getBookDetails from our spreadsheet
-  const books = await apiClient.getBookDetails(title, author);
+  //const books = await apiClient.getBookDetails(title, author);
 
+  const filters = {
+      language: currentLanguage,
+      author: author,
+      query: title
+    };
+  
+    // Fetch filtered books from API
+    const books = await apiClient.getFilteredBooks(filters);
+  
                 /*
   if (!books.length) {
     console.log('No book info for:', title, author);

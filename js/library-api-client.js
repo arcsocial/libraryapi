@@ -436,15 +436,14 @@ async function showBookDetails(event) {
           } else {
             document.getElementById('bookAge').textContent = "Age: " + books[0].AgeGroup;
             document.getElementById('bookGenre').textContent = "Genre: " + books[0].Genre;
-            document.getElementById('bookNumber').textContent = "ID Number: "books[0].Number;
+            document.getElementById('bookNumber').textContent = "ID Number: " + books[0].Number;
           }
       } catch (error) {
     handleError(error);
   }
   
-  
   // Get additional book info from Google Book APIs
-  console.log('Get additional infor for:', title, author);
+  console.log('Get additional infor for: ', title, author);
   const bookInfo = await getBookInfo(title, author);
   
   if (bookInfo.success) {

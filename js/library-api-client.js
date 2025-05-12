@@ -426,7 +426,9 @@ async function showBookDetails(event) {
   // getBookDetails from our spreadsheet
   const books = await apiClient.getBookDetails(title, author);
 
-  console.log('getBookDetails returned ', books.length, ' books ', books[0].AgeGroup, books[0].Genre, books[0].Number);
+  console.log('getBookDetails returned ', books.length, ' books ', books[0].Title, books[0].Author, books[0].AgeGroup, books[0].Genre, books[0].Number);
+  console.log('getBookDetails returned ', books.length, ' books ', books[1].Title, books[1].Author, books[1].AgeGroup, books[1].Genre, books[1].Number);
+  console.log('getBookDetails returned ', books);
   
   if (!books.length) {
     console.log('No book info for:', title, author);

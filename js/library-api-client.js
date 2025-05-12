@@ -428,6 +428,8 @@ async function showBookDetails(event) {
 
   const filters = {
       language: currentLanguage,
+      genre: '',
+      ageGroup: '',
       author: author,
       query: title
     };

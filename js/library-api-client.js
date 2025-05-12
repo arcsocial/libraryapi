@@ -431,7 +431,7 @@ async function showBookDetails(event) {
       genre: '',
       ageGroup: '',
       author: author,
-      query: title
+      query: ''
     };
   
     // Fetch filtered books from API

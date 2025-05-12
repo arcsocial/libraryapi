@@ -436,7 +436,7 @@ async function showBookDetails(event) {
     document.getElementById('bookAge').textContent = book.AgeGroup;
     document.getElementById('bookGenre').textContent = books.Genre;
     document.getElementById('bookNumber').textContent = books.Number;
-  }
+  });
 
                 /*
   if (!books.length) {

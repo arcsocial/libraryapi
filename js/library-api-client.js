@@ -63,8 +63,8 @@ class LibraryAPIClient {
   }
 
   // Get book details for title and author
-  async getBookDetails(author, title) {
-    return this.makeRequest('getBookDetails', { author, title });
+  async getBookDetails(title, author) {
+    return this.makeRequest('getBookDetails', { title, author });
   }
   // Get distinct values for a field
   async getDistinctValues(field) {

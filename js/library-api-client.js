@@ -388,6 +388,8 @@ function displayBooks(books) {
   hideProcessing();
 }
 
+// show book details based on the book selected by user in the list
+// will use the data from the spread sheet for basic info and Google Book APIs for other info if available
 async function showBookDetails(event) {
 
   let bookString = '';

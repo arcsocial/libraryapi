@@ -64,7 +64,7 @@ class LibraryAPIClient {
 
   // Get book details for title and author
   async getBookDetails(author, title) {
-    return this.makeRequest('getDistinctValues', { author, title });
+    return this.makeRequest('getBookDetails', { author, title });
   }
   // Get distinct values for a field
   async getDistinctValues(field) {
@@ -422,7 +422,7 @@ async function showBookDetails(event) {
   document.getElementById('bookdetails').style.display = 'block';
   
   document.getElementById('bookTitle').textContent = title;
-  document.getElementById('bookAuthor').textContent = author;
+  document.getElementById('bookAuthor').textContent = "Author: " + author;
   
   // getBookDetails from our spreadsheet
 
@@ -434,9 +434,9 @@ async function showBookDetails(event) {
         if (!books.length) {
             console.log('No book info for:', title, author);
           } else {
-            document.getElementById('bookAge').textContent = books[0].AgeGroup;
-            document.getElementById('bookGenre').textContent = books[0].Genre;
-            document.getElementById('bookNumber').textContent = books[0].Number;
+            document.getElementById('bookAge').textContent = "Age: " + books[0].AgeGroup;
+            document.getElementById('bookGenre').textContent = "Genre: " + books[0].Genre;
+            document.getElementById('bookNumber').textContent = "ID Number: "books[0].Number;
           }
       } catch (error) {
     handleError(error);

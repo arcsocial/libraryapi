@@ -418,9 +418,6 @@ async function showBookDetails(event) {
     author = parts[1].trim();
   } 
 
-  
-  console.log('Show book details Title ', title, ' Author :', author ); 
-
   // clear old content as a precaution
   document.getElementById('bookAge').textContent = '';
   document.getElementById('bookGenre').textContent = '';
@@ -523,14 +520,8 @@ async function getBookInfo(title, author) {
 }
 
 function backfromdetails() {
-  document.getElementById('bookAge').textContent = '';
-  document.getElementById('bookGenre').textContent = '';
-  document.getElementById('bookNumber').textContent = '';
-  document.getElementById('bookSynopsis').textContent = '';
-  document.getElementById('bookCover').src = '';
-
+  hideBookDetails();
   document.getElementById('searchContainer').style.display = 'block';
-  document.getElementById('bookdetails').style.display = 'none';
 }
 
 
@@ -582,7 +573,9 @@ function browseBooks() {
 }
 
 function homePage() {
+  currentPage = 'home';  
   hideSearch();
+  hideBookDetails();
 }
 
 function showProcessing() {
@@ -598,14 +591,22 @@ function showSearch() {
   document.getElementById('homePage').style.display = 'none';      
   document.getElementById('searchContainer').style.display = 'block';
   document.getElementById('searchContainer').style.width = '95%';
-  //document.getElementById('searchContainer').style.padding-right = '40px';
 }
 
 function hideSearch() {
-  currentPage = 'home';
   clearResults();      
   document.getElementById('searchContainer').style.display = 'none';
   document.getElementById('homePage').style.display = 'initial';         
+}
+
+function hideBookDetails() {   
+  document.getElementById('bookAge').textContent = '';
+  document.getElementById('bookGenre').textContent = '';
+  document.getElementById('bookNumber').textContent = '';
+  document.getElementById('bookSynopsis').textContent = '';
+  document.getElementById('bookCover').src = '';
+
+  document.getElementById('bookdetails').style.display = 'none';      
 }
 
 function handleError(error) {

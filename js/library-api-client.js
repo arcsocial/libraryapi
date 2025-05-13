@@ -28,7 +28,7 @@ class LibraryAPIClient {
         if (params[key]) url.searchParams.append(key, params[key]);
       });
 
-      console.log('Making URL request:', url);
+      // console.log('Making URL request:', url);
       
       // Make the request
       const response = await fetch(url, {
@@ -364,7 +364,7 @@ function displayBooks(books) {
                 <div class="letter-header">${currentLetter}</div>`;
     }
     html += `<div class="book-item">
-              <strong>${book.Title}</strong> - ${book.Author} - <strong>${book.Genre}</strong>
+              <strong>${book.Title}</strong> | ${book.Author} | <strong>${book.Genre}</strong>
             </div>`;
     count++;      
   });
@@ -407,7 +407,7 @@ async function showBookDetails(event) {
   let title = '';
   let author = '';
   
-  const parts = bookString.split("-");
+  const parts = bookString.split("|");
   
   if (parts.length > 3 ) {
     title = parts[0].trim() + ' ' + parts[1].trim();
@@ -419,10 +419,20 @@ async function showBookDetails(event) {
   } 
 
   
-  console.log('Show book details Title ', title, ' Author :', author );    
+  console.log('Show book details Title ', title, ' Author :', author ); 
+
+  // clear old content as a precaution
+  document.getElementById('bookAge').textContent = '';
+  document.getElementById('bookGenre').textContent = '';
+  document.getElementById('bookNumber').textContent = '';
+  document.getElementById('bookSynopsis').textContent = '';
+  document.getElementById('bookCover').src = '';
+
+  // make the right screen visible
   document.getElementById('searchContainer').style.display = 'none';
   document.getElementById('bookdetails').style.display = 'block';
-  
+
+  // diplay data
   document.getElementById('bookTitle').textContent = title;
   document.getElementById('bookAuthor').textContent = "Author: " + author;
   

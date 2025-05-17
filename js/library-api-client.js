@@ -282,6 +282,7 @@ function updateTranslations(trans) {
 async function updateFilters() {
   showProcessing();
 
+  /*
   try {
     
     const genres = await apiClient.getDistinctValues('Genre');
@@ -295,6 +296,7 @@ async function updateFilters() {
   } catch (error) {
     console.error('Error populating filters:', error);
   }
+  */
 
   hideProcessing();
 }

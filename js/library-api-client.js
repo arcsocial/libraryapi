@@ -146,7 +146,7 @@ async function showNewBooks() {
     const books = await apiClient.getSheetData(sheetname);
     */
 
-    const books = getCSVData('newbooks.csv');
+    const books = await getCSVData('newbooks.csv');
     
     console.log('Loaded new books:', books.length);   
 
@@ -160,24 +160,26 @@ async function showNewBooks() {
 }
 
 // read CSV data from a 'data folder in GIT - will use this to load non-static data on home page
-function getCSVData(filename) {
-  
-  fetch('data/' + filename)
-    .then(response => response.text())
-    .then(data => {
-      // Parse CSV and display
-      const rows = data.split('\n');
-      const headers = rows[0].split('|');
-      const items = rows.slice(1).map(row => {
-        const values = row.split('|');
-        return headers.reduce((obj, header, index) => {
-          obj[header] = values[index];
-          return obj;
-        }, {});
-      });
-      
-      return items;
+async function getCSVData(filebame) {
+  try {
+    const response = await fetch('data/' + filename);
+    const data = await response.text();
+    
+    const rows = data.split('\n');
+    const headers = rows[0].split('|');
+    const items = rows.slice(1).map(row => {
+      const values = row.split('|');
+      return headers.reduce((obj, header, index) => {
+        obj[header] = values[index];
+        return obj;
+      }, {});
     });
+    
+    return items; // Now this returns to the caller properly
+  } catch (error) {
+    console.error('Error fetching CSV:', error, ' filename', filename);
+    return []; // Return empty array in case of error
+  }
 }
 
 async function showEvents() {

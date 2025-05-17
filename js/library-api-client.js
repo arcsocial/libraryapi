@@ -167,9 +167,9 @@ function getCSVData(filename) {
     .then(data => {
       // Parse CSV and display
       const rows = data.split('\n');
-      const headers = rows[0].split('|').trim();
+      const headers = rows[0].split('|');
       const items = rows.slice(1).map(row => {
-        const values = row.split('|').trim();
+        const values = row.split('|');
         return headers.reduce((obj, header, index) => {
           obj[header] = values[index];
           return obj;

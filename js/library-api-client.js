@@ -286,9 +286,8 @@ function updateTranslations(trans) {
 async function updateFilters() {
   showProcessing();
 
-  /*
   try {
-    
+    /*
     const genres = await apiClient.getDistinctValues('Genre');
     updateSelect('genreSelect', genres);
 
@@ -296,11 +295,15 @@ async function updateFilters() {
     updateSelect('ageGroupSelect', ageGroups);
       
     const authors = await apiClient.getAuthors();
-    updateSelect('authorSelect', authors);    
+    updateSelect('authorSelect', authors);   
+    */
+    const lov = await apiClient.getDistinctValues('All');
+    updateSelect('genreSelect', lov.genre);
+    updateSelect('ageGroupSelect', lov.age);
+    updateSelect('authorSelect', lov.authors);   
   } catch (error) {
     console.error('Error populating filters:', error);
   }
-  */
 
   hideProcessing();
 }

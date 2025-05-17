@@ -166,10 +166,8 @@ async function getCSVData(filename) {
     const data = await response.text();
     
     const rows = data.split('\n');
-    console.log('Rows:', rows);
     const headers = rows[0].split('|');
     const items = rows.slice(1).map(row => {
-      const values = row.split('|');
       console.log('Values:', values);
       return headers.reduce((obj, header, index) => {
         obj[header] = values[index];
@@ -187,19 +185,23 @@ async function getCSVData(filename) {
 async function showEvents() {
   try {
 
+    /* OLD CODE
     const sheetname = 'Events';
+    
     // Fetch events from API
     const items = await apiClient.getSheetData(sheetname);
 
     console.error('Done get events');
-    console.error('Error:', items.length);   
+    */
+
+    const items = await getCSVData('events.csv');
+    console.log('Events:', items.length);   
 
     // display the data here
     displayEvents(items);
     
   } catch (error) {
     console.error('Error:', error);
-    //document.getElementById('book-list').innerHTML = `<p>Error: ${error.message}</p>`;
   }
 }
 

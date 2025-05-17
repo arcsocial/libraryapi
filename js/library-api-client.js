@@ -139,12 +139,16 @@ const apiClient = new LibraryAPIClient('https://script.google.com/macros/s/AKfyc
 async function showNewBooks() {
   try {
 
+    /*
+    // OLD CODE for showing new books from Google sheets
     const sheetname = 'NewBooks';
     // Fetch books from API
     const books = await apiClient.getSheetData(sheetname);
+    */
 
-    console.error('Done getSheetData');
-    console.error('Error:', books.length);   
+    const books = getCSVData('newbooks.csv');
+    
+    console.log('Loaded new books:', books.length);   
 
     // display the data here
     displayNewBooks(books);
@@ -153,6 +157,26 @@ async function showNewBooks() {
     console.error('Error:', error);
     //document.getElementById('book-list').innerHTML = `<p>Error: ${error.message}</p>`;
   }
+}
+
+function getCSVData(filename) {
+  
+  fetch('data' + filebame)
+    .then(response => response.text())
+    .then(data => {
+      // Parse CSV and display
+      const rows = data.split('\n');
+      const headers = rows[0].split('|').trim();
+      const items = rows.slice(1).map(row => {
+        const values = row.split('|').trim();
+        return headers.reduce((obj, header, index) => {
+          obj[header] = values[index];
+          return obj;
+        }, {});
+      });
+      
+      return items;
+    });
 }
 
 async function showEvents() {

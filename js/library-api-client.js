@@ -169,10 +169,12 @@ async function getCSVData(filename) {
     const headers = rows[0].split('|');
     const items = rows.slice(1).map(row => {
       const values = row.split('|');
-      return headers.reduce((obj, header, index) => {
-        obj[header] = values[index];
-        return obj;
-      }, {});
+      if (values[0] != '') {
+        return headers.reduce((obj, header, index) => {
+          obj[header] = values[index];
+          return obj;
+        }, {});
+      }
     });
     
     return items; // Now this returns to the caller properly

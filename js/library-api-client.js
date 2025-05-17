@@ -167,14 +167,14 @@ async function getCSVData(filename) {
     
     const rows = data.split('\n');
     const headers = rows[0].split('|');
-    const items = rows.slice(1).map(row => {
+    const items = rows.slice(1)
+      .filter(row => row !== '')
+      .map(row => {
       const values = row.split('|');
-      if (values[0] != '') {
         return headers.reduce((obj, header, index) => {
           obj[header] = values[index];
           return obj;
         }, {});
-      }
     });
     
     return items; // Now this returns to the caller properly

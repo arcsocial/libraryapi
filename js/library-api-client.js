@@ -535,7 +535,9 @@ async function getBookInfo(title, author) {
       console.log('Book retrieved from google:', gtitle);
       
       // Google API - did it return the right book?
-      if ( gtitle.trim().toLowerCase() === title.trim().toLowerCase() ) {          
+      testTitleParts = title.split('-');
+      if ( testTitleParts.length > 1 ) title = testTitleParts[1];
+      if ( gtitle.trim().toLowerCase().includes(title.trim().toLowerCase() ) ) {          
         const description = book.description ? 
           book.description.substring(0, 450) + "..." : 
           "No description available.";

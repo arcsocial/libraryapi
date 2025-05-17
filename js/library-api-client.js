@@ -168,7 +168,7 @@ async function getCSVData(filename) {
     const rows = data.split('\n');
     const headers = rows[0].split('|');
     const items = rows.slice(1).map(row => {
-      console.log('Values:', values);
+      const values = row.split('|');
       return headers.reduce((obj, header, index) => {
         obj[header] = values[index];
         return obj;

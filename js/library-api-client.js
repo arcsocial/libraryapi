@@ -162,7 +162,7 @@ async function showNewBooks() {
 // read CSV data from a 'data folder in GIT - will use this to load non-static data on home page
 function getCSVData(filename) {
   
-  fetch('data' + filename)
+  fetch('data/' + filename)
     .then(response => response.text())
     .then(data => {
       // Parse CSV and display

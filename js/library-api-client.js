@@ -320,12 +320,18 @@ async function searchBooksText() {
     }
   
     showProcessing();
+
+    if (currentLanguage === 'mr' && isEnglish(searchText) ) {
+      console.log('Calling transliterate for ', searchText);
+      searchText = await transliterate(searchText);
+      console.log('Transliterated to ', searchText);
+    }
     
     const filters = {
       language: currentLanguage,
       query: searchText
     };
-    
+      
     // Fetch filtered books from API
     const books = await apiClient.getFilteredBooks(filters);
 
@@ -340,12 +346,20 @@ async function searchBooks() {
   try {
     clearResults();      
     showProcessing();
+
+    let searchText = document.getElementById('authorSearch').value;
+    if (currentLanguage === 'mr' && isEnglish(searchText) ) {
+      console.log('Calling transliterate for ', searchText);
+      searchText = await transliterate(searchText);
+      console.log('Transliterated to ', searchText);
+    }
+    
     const filters = {
       language: currentLanguage,
       genre: document.getElementById('genreSelect').value,
       ageGroup: document.getElementById('ageGroupSelect').value,
       author: document.getElementById('authorSelect').value,
-      query: document.getElementById('authorSearch').value
+      query: searchText
     };
   
     // Fetch filtered books from API
@@ -648,6 +662,30 @@ function handleError(error) {
   console.error('Error:', error);
   hideProcessing();
   alert('An error occurred. Please try again.');
+}
+
+// Function to check if text is primarily English
+function isEnglish(text) {
+  // Simple check: if more than 60% of characters are ASCII letters, assume English
+  const letterCount = (text.match(/[a-zA-Z]/g) || []).length;
+  const totalChars = text.replace(/\s/g, '').length; // Remove spaces
+  
+  return totalChars > 0 && (letterCount / totalChars) > 0.6;
+}
+
+// using Google transliterate 
+async function transliterate(text) {
+  const response = await fetch('https://inputtools.google.com/request?text=' + 
+    encodeURIComponent(text) + '&itc=mr-t-i0-und&num=5&cp=0&cs=1&ie=utf-8&oe=utf-8', {
+    method: 'GET'
+  });
+  
+  const data = await response.json();
+  if (data[0] === 'SUCCESS') {
+    return data[1][0][1][0]; // Get the first transliteration suggestion
+  } else {
+    return text; // Return original if failed
+  }
 }
 
 document.getElementById('searchBtn').onclick = searchBooks;

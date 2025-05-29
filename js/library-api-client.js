@@ -698,6 +698,7 @@ function showPMBookList () {
   currentPage = 'pmbooklist';
   document.getElementById('homePage').style.display = 'none';      
   document.getElementById('searchContainer').style.display = 'none';
+  hideBookDetails();
   document.getElementById('pmbooklist').style.display = 'block';  
 }
 

@@ -699,7 +699,7 @@ async function transliterate(text) {
 
 function showPMBookList () {
   currentPage = 'pmbooklist';
-  window.location.href = '/punemarathibooks.html';
+  window.location.href = 'punemarathibooks.html';
 }
 
 document.getElementById('searchBtn').onclick = searchBooks;

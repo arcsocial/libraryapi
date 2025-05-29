@@ -484,6 +484,8 @@ async function showBookDetails(event) {
   // diplay data
   document.getElementById('bookTitle').textContent = title;
   document.getElementById('bookAuthor').textContent = "Author: " + author;
+
+  document.getElementById('bdProcessingMsg').style.display = 'block';
   
   // getBookDetails from our spreadsheet
 
@@ -517,6 +519,7 @@ async function showBookDetails(event) {
       document.getElementById('bookCover').style.display = 'none';
     }
   } 
+  document.getElementById('bdProcessingMsg').style.display = 'none';
 }
 
 // function to get book details from Google Book API
@@ -524,6 +527,8 @@ async function getBookInfo(title, author) {
   // Format the search query
   const query = encodeURIComponent(`intitle:${title} inauthor:${author}`);
   const url = `https://www.googleapis.com/books/v1/volumes?q=${query}&maxResults=1`;
+
+  document.getElementById('bdProcessingMsg').style.display = 'block';
   
   try {
     // Make the API request
@@ -571,6 +576,9 @@ async function getBookInfo(title, author) {
       message: "Error fetching book information: " + error.toString()
     };
   }
+
+  document.getElementById('bdProcessingMsg').style.display = 'none';
+  
 }
 
 function backfromdetails() {

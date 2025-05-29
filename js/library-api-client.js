@@ -627,13 +627,10 @@ function browseBooks() {
 }
 
 function homePage() {
-  if ( currentPage === 'search' ) {
-    currentPage = 'home'; 
-    hideSearch();
-    hideBookDetails();
-  } else {
-    location.reload();
-  }
+  currentPage = 'home'; 
+  hideSearch();
+  hideBookDetails();
+  document.getElementById('pmbooklist').style.display = 'none'; 
 }
 
 function showProcessing() {
@@ -699,7 +696,9 @@ async function transliterate(text) {
 
 function showPMBookList () {
   currentPage = 'pmbooklist';
-  window.location.href = 'punemarathibooks.html';
+  document.getElementById('homePage').style.display = 'none';      
+  document.getElementById('searchContainer').style.display = 'none';
+  document.getElementById('pmbooklist').style.display = 'block';  
 }
 
 document.getElementById('searchBtn').onclick = searchBooks;

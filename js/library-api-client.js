@@ -627,9 +627,13 @@ function browseBooks() {
 }
 
 function homePage() {
-  currentPage = 'home';  
-  hideSearch();
-  hideBookDetails();
+  if ( currentPage === 'search' ) {
+    currentPage = 'home'; 
+    hideSearch();
+    hideBookDetails();
+  } else {
+    location.reload();
+  }
 }
 
 function showProcessing() {
@@ -693,6 +697,11 @@ async function transliterate(text) {
   }
 }
 
+function showPMBookList () {
+  currentPage = 'pmbooklist';
+  window.location.href = '/punemarathibooks.html';
+}
+
 document.getElementById('searchBtn').onclick = searchBooks;
 document.getElementById('clearBtn').onclick = clearFilters;
 document.getElementById('searchTextBtn').onclick = searchBooksText;
@@ -701,7 +710,8 @@ document.getElementById('browseButton').onclick = browseBooks;
 document.getElementById('logoHome').onclick = homePage;    
 document.getElementById('title').onclick = homePage;
 document.getElementById('bookdetail-back').onclick = backfromdetails;
-document.getElementById("bookList").onclick = showBookDetails;  
+document.getElementById("bookList").onclick = showBookDetails;
+document.getElementById("pmbookList").onclick = showPMBookList;  
 
 //window.onload = initialize;
 

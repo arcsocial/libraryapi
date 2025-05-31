@@ -134,7 +134,6 @@ function getTranslations(language) {
 
 // Initialize the API client (replace with your deployed Google Apps Script web app URL)
 // ARC Social const apiClient = new LibraryAPIClient('https://script.google.com/macros/s/AKfycbwzbqTijTdpMjc-9ZRcOf_twDJ3xxxVu_-VCd9CEZArRaymCpefupk9OXHPw-IB4m71/exec');
-//const apiClient = new LibraryAPIClient('https://script.google.com/macros/s/AKfycbyxhudNo_qV1we_4WzXLXwQnnlo_Zrw_cUodKBbT9oFt6P2GLQNALbyuBRYhrP5yWYs9A/exec');
 const apiClient = new LibraryAPIClient('https://script.google.com/macros/s/AKfycbwzbqTijTdpMjc-9ZRcOf_twDJ3xxxVu_-VCd9CEZArRaymCpefupk9OXHPw-IB4m71/exec');
 
 async function showNewBooks() {

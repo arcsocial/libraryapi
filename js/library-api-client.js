@@ -2,6 +2,8 @@
 // start main JS handling
 let currentLanguage = 'en'; // Default language
 let currentPage = 'home';
+const AGEGROUP = 'Age';
+const AUTHORLASTNAME = 'LName';
 
 // Library API Client
 class LibraryAPIClient {
@@ -289,16 +291,6 @@ async function updateFilters() {
   showProcessing();
 
   try {
-    /*
-    const genres = await apiClient.getDistinctValues('Genre');
-    updateSelect('genreSelect', genres);
-
-    const ageGroups = await apiClient.getDistinctValues('AgeGroup');
-    updateSelect('ageGroupSelect', ageGroups);
-      
-    const authors = await apiClient.getAuthors();
-    updateSelect('authorSelect', authors);   
-    */
     const lov = await apiClient.getDistinctValues('All');
     updateSelect('genreSelect', lov.genre);
     updateSelect('ageGroupSelect', lov.age);
@@ -396,7 +388,7 @@ function displayBooks(books) {
  
   // Get unique first letters of author last names
   const uniqueLetters = [...new Set(
-    books.map(book => book.AuthorLastName.charAt(0).toUpperCase())
+    books.map(book => book.AUTHORLASTNAME.charAt(0).toUpperCase())
   )].sort();
 
   // Generate book list HTML
@@ -406,7 +398,7 @@ function displayBooks(books) {
   bookList.innerHTML = '';
 
   books.forEach(book => {
-    const letterHeader = book.AuthorLastName.charAt(0).toUpperCase();
+    const letterHeader = book.AUTHORLASTNAME.charAt(0).toUpperCase();
     if (letterHeader !== currentLetter) {
       if (currentLetter !== '') {
         html += '</div>'; // Close previous letter-section
@@ -499,7 +491,7 @@ async function showBookDetails(event) {
         if (!books.length) {
             console.log('No book info for:', title, author);
           } else {
-            document.getElementById('bookAge').textContent = "Age: " + books[0].AgeGroup;
+            document.getElementById('bookAge').textContent = "Age: " + books[0].AGEGROUP;
             document.getElementById('bookGenre').textContent = "Genre: " + books[0].Genre;
             document.getElementById('bookNumber').textContent = "ID Number: " + books[0].Number;
           }

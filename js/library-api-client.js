@@ -409,7 +409,13 @@ function displayBooks(books) {
                 <div class="letter-header">${currentLetter}</div>`;
     }
     
-    bookid = book.Age + "-" + book.Number;
+    bookid = book.Age + "-" 
+    if ( book.Number !== '' ) {
+      bookid += book.Number;
+    } else {
+      bookid += "NA";
+    }
+    
     html += `<div id="${bookid}" class="book-item">
               <strong>${book.Title}</strong> | ${book.Author} | <strong>${book.Genre}</strong>
             </div>`;

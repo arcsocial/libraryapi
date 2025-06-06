@@ -393,6 +393,7 @@ function displayBooks(books) {
   let currentLetter = '';
   let html = '';
   let count = 0;
+  let bookid = '';
   bookList.innerHTML = '';
 
   books.forEach(book => {
@@ -407,7 +408,9 @@ function displayBooks(books) {
       html += `<div id="section${currentLetter}" class="letter-section">
                 <div class="letter-header">${currentLetter}</div>`;
     }
-    html += `<div class="book-item">
+    
+    bookid = book.Age + "-" + book.Number;
+    html += `<div id="{bookid}" class="book-item">
               <strong>${book.Title}</strong> | ${book.Author} | <strong>${book.Genre}</strong>
             </div>`;
     count++;      
@@ -437,12 +440,15 @@ function displayBooks(books) {
 async function showBookDetails(event) {
 
   let bookString = '';
+  let bookid = '';
   
   if (event.target) {
     if (event.target.nodeName === "STRONG" ) {        
       bookString = event.target.parentNode.textContent;
+      bookid = event.target.parentNode.id;
     } else {
       bookString = event.target.textContent;
+      bookid = event.target.id;
     }
   }
 
@@ -450,17 +456,17 @@ async function showBookDetails(event) {
 
   let title = '';
   let author = '';
+  let genre = ''
   
   const parts = bookString.split("|");
   
-  if (parts.length > 3 ) {
-    title = parts[0].trim() + ' ' + parts[1].trim();
-    author = parts[parts.length - 2].trim();
-  } 
-  if (parts.length === 3) {
+  if (parts.length > 3) {
     title = parts[0].trim();
     author = parts[1].trim();
+    genre = parts[2].trim();
   } 
+
+  if ( title === '' ) return; // we do not have required data to proceed
 
   // clear old content as a precaution
   document.getElementById('bookAge').textContent = '';
@@ -476,11 +482,19 @@ async function showBookDetails(event) {
   // diplay data
   document.getElementById('bookTitle').textContent = title;
   document.getElementById('bookAuthor').textContent = "Author: " + author;
+  document.getElementById('bookGenre').textContent = "Genre: " + genre;
 
+  // get data from element id
+  const idparts = bookString.split("-");
+  document.getElementById('bookAge').textContent = "Age: " + idparts[0];
+  if ( ifparts.length > 1 ) document.getElementById('bookNumber').textContent = "ID Number: " + idparts[1];
+  
   document.getElementById('bdProcessingMsg').style.display = 'block';
   
-  // getBookDetails from our spreadsheet
+  // 
 
+  /*
+  // getBookDetails from our spreadsheet
   try {
         const books = await apiClient.getBookDetails(title, author);
   
@@ -496,6 +510,7 @@ async function showBookDetails(event) {
       } catch (error) {
     handleError(error);
   }
+  */
   
   // Get additional book info from Google Book APIs
   console.log('Get additional infor for: ', title, author);

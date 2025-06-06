@@ -410,7 +410,7 @@ function displayBooks(books) {
     }
     
     bookid = book.Age + "-" + book.Number;
-    html += `<div id="{bookid}" class="book-item">
+    html += `<div id="${bookid}" class="book-item">
               <strong>${book.Title}</strong> | ${book.Author} | <strong>${book.Genre}</strong>
             </div>`;
     count++;      

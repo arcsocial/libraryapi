@@ -452,7 +452,7 @@ async function showBookDetails(event) {
     }
   }
 
-  console.log('ShowBookDetails:', bookString);      
+  console.log('ShowBookDetails:', bookString, ' ID ', bookid);      
 
   let title = '';
   let author = '';
@@ -460,14 +460,16 @@ async function showBookDetails(event) {
   
   const parts = bookString.split("|");
   
-  if (parts.length > 3) {
+  if (parts.length >= 3) {
     title = parts[0].trim();
     author = parts[1].trim();
     genre = parts[2].trim();
   } 
 
-  if ( title === '' ) return; // we do not have required data to proceed
-
+  if ( title === '' ) {
+    console.log('ShowBookDetails:', bookString);  
+    return; // we do not have required data to proceed
+  }
   // clear old content as a precaution
   document.getElementById('bookAge').textContent = '';
   document.getElementById('bookGenre').textContent = '';
@@ -485,9 +487,9 @@ async function showBookDetails(event) {
   document.getElementById('bookGenre').textContent = "Genre: " + genre;
 
   // get data from element id
-  const idparts = bookString.split("-");
+  const idparts = bookid.split("-");
   document.getElementById('bookAge').textContent = "Age: " + idparts[0];
-  if ( ifparts.length > 1 ) document.getElementById('bookNumber').textContent = "ID Number: " + idparts[1];
+  if ( idparts.length > 1 ) document.getElementById('bookNumber').textContent = "ID Number: " + idparts[1];
   
   document.getElementById('bdProcessingMsg').style.display = 'block';
   
